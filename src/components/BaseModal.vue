@@ -2,8 +2,8 @@
   <Teleport to="body">
     <Transition name="modal">
       <div v-if="modelValue" class="modal-overlay" @click="closeModal">
-        <div class="modal-container" @click.stop>
-          <div class="modal-content">
+        <div class="modal-container" :style="{ maxWidth: maxWidth }" @click.stop>
+          <div class="modal-content" :style="{ padding: noPadding ? '0' : '2rem', textAlign: centerContent ? 'center' : 'left' }">
             <!-- Icon -->
             <div v-if="$slots.icon" class="modal-icon">
               <slot name="icon"></slot>
@@ -18,6 +18,9 @@
             <div v-if="$slots.description" class="modal-description">
               <slot name="description"></slot>
             </div>
+
+            <!-- Default slot for custom content -->
+            <slot></slot>
 
             <!-- Actions -->
             <div v-if="$slots.actions" class="modal-actions">
@@ -35,6 +38,18 @@ const props = defineProps({
   modelValue: {
     type: Boolean,
     required: true
+  },
+  maxWidth: {
+    type: String,
+    default: '500px'
+  },
+  noPadding: {
+    type: Boolean,
+    default: false
+  },
+  centerContent: {
+    type: Boolean,
+    default: true
   }
 })
 
