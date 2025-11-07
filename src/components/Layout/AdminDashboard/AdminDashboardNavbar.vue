@@ -29,13 +29,7 @@
 
             <!-- Right: Icons + Profile -->
             <div class="flex justify-end items-center lg:gap-6 gap-4">
-                <!-- Messages Icon -->
-                <button aria-label="Messages" class="relative sm:flex hidden hover:bg-gray-100 p-2 rounded-lg">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 18H4V8L12 13L20 8V18ZM12 11L4 6H20L12 11Z" fill="#333333" />
-                    </svg>
-                    <span v-if="messages" class="absolute right-1 top-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                </button>
+  
 
                 <!-- Notifications Icon -->
                 <button 
@@ -72,6 +66,9 @@
                 </div>
             </div>
         </div>
+
+        <!-- Notification Panel -->
+        <NotificationPanel :show="showNotifications" @close="showNotifications = false" />
 
         <!-- Mobile Sidebar -->
         <transition name="fade">
@@ -135,6 +132,7 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import navItems from './navItem'
+import NotificationPanel from '@/components/NotificationPanel.vue'
 
 defineProps({
     showLogo: {
@@ -147,6 +145,7 @@ const router = useRouter()
 const route = useRoute()
 
 const isMobileMenuOpen = ref(false)
+const showNotifications = ref(false)
 const unreadNotificationCount = ref(3) // Mock notification count
 
 // Mock user data - replace with actual auth store
@@ -156,8 +155,7 @@ const userInitials = computed(() => 'AU')
 const messages = ref(true)
 
 const toggleNotifications = () => {
-    // Add notification panel logic here
-    console.log('Toggle notifications')
+    showNotifications.value = !showNotifications.value
 }
 </script>
 

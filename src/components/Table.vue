@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Desktop Table -->
-        <div class="hidden sm:block overflow-x-auto">
+        <div class="hidden sm:block overflow-x-auto bg-white">
             <table class="min-w-full table-auto border border-gray-200">
                 <thead>
                     <tr class="bg-gray-50">
@@ -13,15 +13,23 @@
                 </thead>
                 <tbody>
                     <tr v-if="data.length" v-for="(row, rowIndex) in data" :key="rowIndex"
-                        class="border-gray-500 hover:bg-gray-50">
+                        class="border-gray-500 hover:bg-gray-50"
+                        :class="{ 'bg-gray-50': rowIndex % 2 === 1 }">
                         <td v-for="column in columns" :key="column.key" class="px-4 py-2 text-sm text-nowrap">
-                            <!-- STATUS -->
-                            <span v-if="column.key === 'status'" :class="statusStyles[row.status] || ''">
-                                {{ row.status }}
-                            </span>
+                            <!-- CHECKBOX SLOT -->
+                            <slot v-if="column.key === 'checkbox'" name="checkbox" :row="row" :rowIndex="rowIndex">
+                            </slot>
 
-                            <!-- ACTION SLOT -->
-                            <slot v-else-if="column.key === 'action'" name="action" :row="row" :rowIndex="rowIndex">
+                            <!-- STATUS SLOT (for custom status rendering) -->
+                            <slot v-else-if="$slots.status && column.key === 'status'" name="status" :row="row" :rowIndex="rowIndex">
+                                <!-- Fallback to default status rendering -->
+                                <span :class="statusStyles[row.status] || ''">
+                                    {{ row.status }}
+                                </span>
+                            </slot>
+
+                            <!-- ACTION/ACTIONS SLOT -->
+                            <slot v-else-if="(column.key === 'action' || column.key === 'actions') && ($slots.action || $slots.actions)" :name="column.key" :row="row" :rowIndex="rowIndex">
                             </slot>
 
                             <!-- OTHER CELLS -->
@@ -52,11 +60,11 @@
                             <div class="font-semibold text-gray-600">
                                 <p>{{ columns[i * 2].label }}</p>
                             </div>
-                            <div class="mt-1 text-xs break-words" :class="columns[i * 2].key === 'action' ? 'overflow-visible' : 'overflow-hidden'">
+                            <div class="mt-1 text-xs break-words" :class="(columns[i * 2].key === 'action' || columns[i * 2].key === 'actions') ? 'overflow-visible' : 'overflow-hidden'">
                                 <span v-if="columns[i * 2].key === 'status'" :class="statusStyles[row.status] || ''">
                                     {{ row.status }}
                                 </span>
-                                <slot v-else-if="columns[i * 2].key === 'action'" name="action" :row="row"
+                                <slot v-else-if="columns[i * 2].key === 'action' || columns[i * 2].key === 'actions'" :name="columns[i * 2].key" :row="row"
                                     :rowIndex="rowIndex"></slot>
                                 <span v-else class="break-words">
                                     {{ row[columns[i * 2].key] }}
@@ -69,11 +77,11 @@
                             <div class="font-semibold text-gray-600">
                                 {{ columns[i * 2 + 1].label }}
                             </div>
-                            <div class="mt-1 text-xs break-words" :class="columns[i * 2 + 1].key === 'action' ? 'overflow-visible' : 'overflow-hidden'">
+                            <div class="mt-1 text-xs break-words" :class="(columns[i * 2 + 1].key === 'action' || columns[i * 2 + 1].key === 'actions') ? 'overflow-visible' : 'overflow-hidden'">
                                 <span v-if="columns[i * 2 + 1].key === 'status'" :class="statusStyles[row.status] || ''">
                                     {{ row.status }}
                                 </span>
-                                <slot v-else-if="columns[i * 2 + 1].key === 'action'" name="action" :row="row"
+                                <slot v-else-if="columns[i * 2 + 1].key === 'action' || columns[i * 2 + 1].key === 'actions'" :name="columns[i * 2 + 1].key" :row="row"
                                     :rowIndex="rowIndex"></slot>
                                 <span v-else class="break-words">
                                     {{ row[columns[i * 2 + 1].key] }}
