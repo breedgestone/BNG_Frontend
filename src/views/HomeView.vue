@@ -9,6 +9,13 @@ import 'swiper/css/pagination'
 
 const swiperModules = [Navigation, Pagination, Autoplay]
 
+// Image loading states
+const imageLoaded = ref({})
+
+const handleImageLoad = (key) => {
+  imageLoaded.value[key] = true
+}
+
 const testimonials = [
   {
     text: "BNG Fitness Hub has completely changed the way I approach my workouts. The trainers are supportive, the community keeps me motivated, and the check-in rewards push me to stay consistent. I've seen real progress in my strength and confidence since joining, and I actually look forward to coming to the gym now.",
@@ -84,22 +91,22 @@ const testimonials = [
       <div class="container mx-auto px-4 md:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
           <!-- Left Image - Smaller, Portrait -->
-          <div data-aos="fade-right" class="md:col-span-2 rounded-2xl overflow-hidden aspect-[2/4]">
+          <div data-aos="fade-right" :class="['md:col-span-2 rounded-2xl overflow-hidden aspect-[2/4]', !imageLoaded['hero-1'] && 'bg-gray-200 animate-pulse']">
             <!-- TODO: Add image - person in dark gym setting doing dumbbell exercise -->
-            <img src="@/assets/svg/basketBaller.svg" alt="bng image">
+            <img src="@/assets/svg/basketBaller.svg" alt="bng image" class="w-full h-full object-cover" @load="handleImageLoad('hero-1')">
 
           </div>
 
           <!-- Center Image - Larger, Landscape -->
-          <div data-aos="fade-up" data-aos-delay="100" class="md:col-span-6 rounded-2xl overflow-hidden aspect-[4/3] md:aspect-[6/4]">
-            <img src="@/assets/svg/weightlifting.svg" alt="bng image">
+          <div data-aos="fade-up" data-aos-delay="100" :class="['md:col-span-6 rounded-2xl overflow-hidden aspect-[4/3] md:aspect-[6/4]', !imageLoaded['hero-2'] && 'bg-gray-200 animate-pulse']">
+            <img src="@/assets/svg/weightlifting.svg" alt="bng image" class="w-full h-full object-cover" @load="handleImageLoad('hero-2')">
 
           </div>
 
           <!-- Right Image - Smaller, Portrait -->
-          <div data-aos="fade-left" data-aos-delay="200" class="md:col-span-4 rounded-2xl overflow-hidden aspect-[4/4]">
+          <div data-aos="fade-left" data-aos-delay="200" :class="['md:col-span-4 rounded-2xl overflow-hidden aspect-[4/4]', !imageLoaded['hero-3'] && 'bg-gray-200 animate-pulse']">
             <!-- TODO: Add image - person standing in dimly lit doorway/hallway -->
-            <img src="@/assets/svg/punchingbag.svg" alt="bng image">
+            <img src="@/assets/svg/punchingbag.svg" alt="bng image" class="w-full h-full object-cover" @load="handleImageLoad('hero-3')">
 
           </div>
         </div>
@@ -131,19 +138,19 @@ const testimonials = [
           <!-- Right Side - Image Grid -->
           <div class="grid grid-cols-3 gap-4 md:gap-6" data-aos="fade-left">
             <!-- Top Left Image - Portrait -->
-            <div class="rounded-2xl overflow-hidden aspect-[1/3]">
-              <img class="h-full object-cover w-full" src="@/assets/svg/facinbackMan.svg" alt="">
+            <div :class="['rounded-2xl overflow-hidden aspect-[1/3]', !imageLoaded['about-1'] && 'bg-gray-200 animate-pulse']">
+              <img class="h-full object-cover w-full" src="@/assets/svg/facinbackMan.svg" alt="" @load="handleImageLoad('about-1')">
             </div>
 
             <!-- Top Right Image - Portrait -->
-            <div class="rounded-2xl overflow-hidden aspect-[1/3]">
-              <img class="h-full object-cover w-full" src="@/assets/svg/prettygirl.svg" alt="">
+            <div :class="['rounded-2xl overflow-hidden aspect-[1/3]', !imageLoaded['about-2'] && 'bg-gray-200 animate-pulse']">
+              <img class="h-full object-cover w-full" src="@/assets/svg/prettygirl.svg" alt="" @load="handleImageLoad('about-2')">
 
             </div>
 
             <!-- Bottom Full Width - Landscape -->
-            <div class=" rounded-2xl overflow-hidden aspect-[1/3]">
-              <img class="h-full object-cover w-full" src="@/assets/svg/muscularguy.svg" alt="">
+            <div :class="['rounded-2xl overflow-hidden aspect-[1/3]', !imageLoaded['about-3'] && 'bg-gray-200 animate-pulse']">
+              <img class="h-full object-cover w-full" src="@/assets/svg/muscularguy.svg" alt="" @load="handleImageLoad('about-3')">
 
             </div>
           </div>
@@ -180,8 +187,8 @@ const testimonials = [
               Build connections with like-minded individuals who push you to be your best while celebrating every
               milestone together.
             </p>
-            <div class="rounded-2xl overflow-hidden aspect-[4/5]">
-              <img src="@/assets/svg/bicycledriving.svg" alt="bng bicycledriving">
+            <div :class="['rounded-2xl overflow-hidden aspect-[4/5]', !imageLoaded['feature-1'] && 'bg-gray-200 animate-pulse']">
+              <img src="@/assets/svg/bicycledriving.svg" alt="bng bicycledriving" class="w-full h-full object-cover" @load="handleImageLoad('feature-1')">
             </div>
           </div>
 
@@ -201,8 +208,8 @@ const testimonials = [
               Track your progress with our innovative app and equipment, making every session smarter and more rewarding
               than the last.
             </p>
-            <div class="rounded-2xl overflow-hidden aspect-[4/5]">
-              <img src="@/assets/svg/smartworkout.svg" alt="bng smartworkout">
+            <div :class="['rounded-2xl overflow-hidden aspect-[4/5]', !imageLoaded['feature-2'] && 'bg-gray-200 animate-pulse']">
+              <img src="@/assets/svg/smartworkout.svg" alt="bng smartworkout" class="w-full h-full object-cover" @load="handleImageLoad('feature-2')">
             </div>
           </div>
 
@@ -222,8 +229,8 @@ const testimonials = [
               Work with certified trainers who understand your goals and guide you every step, ensuring proper form and
               motivation.
             </p>
-            <div class="rounded-2xl overflow-hidden aspect-[4/5]">
-              <img src="@/assets/svg/solotrainer.svg" alt="bng solotrainer">
+            <div :class="['rounded-2xl overflow-hidden aspect-[4/5]', !imageLoaded['feature-3'] && 'bg-gray-200 animate-pulse']">
+              <img src="@/assets/svg/solotrainer.svg" alt="bng solotrainer" class="w-full h-full object-cover" @load="handleImageLoad('feature-3')">
             </div>
           </div>
         </div>
@@ -257,8 +264,8 @@ const testimonials = [
                 enjoy the freedom of working out on your terms with continuous support from our knowledgeable team.
               </p>
             </div>
-            <div class="rounded-2xl overflow-hidden ">
-              <img src="@/assets/svg/sweatingMan.svg" alt="bng sweatingMan">
+            <div :class="['rounded-2xl overflow-hidden', !imageLoaded['service-1'] && 'bg-gray-200 animate-pulse']">
+              <img src="@/assets/svg/sweatingMan.svg" alt="bng sweatingMan" class="w-full h-full object-cover" @load="handleImageLoad('service-1')">
             </div>
           </div>
           <div class="flex flex-col gap-8 lg:gap-12 items-center">
@@ -275,8 +282,8 @@ const testimonials = [
                 focuses on your form, safety, and long-term progress.
               </p>
             </div>
-            <div class="rounded-2xl overflow-hidden ">
-              <img src="@/assets/svg/runningMan.svg" alt="bng runningMan">
+            <div :class="['rounded-2xl overflow-hidden', !imageLoaded['service-2'] && 'bg-gray-200 animate-pulse']">
+              <img src="@/assets/svg/runningMan.svg" alt="bng runningMan" class="w-full h-full object-cover" @load="handleImageLoad('service-2')">
             </div>
           </div>
           <div class="flex flex-col gap-8 lg:gap-12 items-center">
@@ -291,8 +298,8 @@ const testimonials = [
                 stay committed over time.
               </p>
             </div>
-            <div class="rounded-2xl overflow-hidden ">
-              <img src="@/assets/svg/weightrack.svg" alt="bng weightrack">
+            <div :class="['rounded-2xl overflow-hidden', !imageLoaded['service-3'] && 'bg-gray-200 animate-pulse']">
+              <img src="@/assets/svg/weightrack.svg" alt="bng weightrack" class="w-full h-full object-cover" @load="handleImageLoad('service-3')">
             </div>
           </div>
 
@@ -361,9 +368,9 @@ const testimonials = [
                 </div>
 
                 <!-- Right Side - Image -->
-                <div class="order-1 lg:order-2 rounded-2xl overflow-hidden aspect-4/3">
+                <div :class="['order-1 lg:order-2 rounded-2xl overflow-hidden aspect-4/3', !imageLoaded['testimonial'] && 'bg-gray-200 animate-pulse']">
                   <img src="@/assets/svg/testimonial.svg" :alt="testimonial.author"
-                    class="w-full h-full object-cover" />
+                    class="w-full h-full object-cover" @load="handleImageLoad('testimonial')" />
 
                 </div>
               </div>
@@ -643,8 +650,8 @@ const testimonials = [
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <!-- Left Side - Phone Mockup with Red Background -->
           <div class="order-2 lg:order-1">
-            <div class="bg-primary rounded-3xl p-8 pb-0 flex justify-center items-center">
-              <img src="@/assets/svg/phone.svg" alt="bng phone">
+            <div :class="['bg-primary rounded-3xl p-8 pb-0 flex justify-center items-center', !imageLoaded['phone-home'] && 'animate-pulse']">
+              <img src="@/assets/svg/phone.svg" alt="bng phone" class="w-full h-auto" @load="handleImageLoad('phone-home')">
             </div>
           </div>
 

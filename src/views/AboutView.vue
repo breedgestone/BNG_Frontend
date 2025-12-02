@@ -1,5 +1,12 @@
 <script setup>
-// About View
+import { ref } from 'vue'
+
+// Image loading states
+const imageLoaded = ref({})
+
+const handleImageLoad = (key) => {
+  imageLoaded.value[key] = true
+}
 </script>
 
 <template>
@@ -131,19 +138,19 @@
             <!-- Left Column - Two stacked images -->
             <div class="flex flex-col gap-4 md:gap-6">
               <!-- Top Left Image -->
-              <div class="rounded-2xl overflow-hidden h-1/2">
-                <img src="@/assets/svg/womanworkingout.svg" alt="bng woman working out" class="w-full h-full object-cover">
+              <div :class="['rounded-2xl overflow-hidden h-1/2', !imageLoaded['about-img-1'] && 'bg-gray-200 animate-pulse']">
+                <img src="@/assets/svg/womanworkingout.svg" alt="bng woman working out" class="w-full h-full object-cover" @load="handleImageLoad('about-img-1')">
               </div>
               
               <!-- Bottom Left Image -->
-              <div class="rounded-2xl overflow-hidden h-1/2">
-                <img src="@/assets/svg/guywithrope.svg" alt="bng guy with rope at the gym" class="w-full h-full  object-cover">
+              <div :class="['rounded-2xl overflow-hidden h-1/2', !imageLoaded['about-img-2'] && 'bg-gray-200 animate-pulse']">
+                <img src="@/assets/svg/guywithrope.svg" alt="bng guy with rope at the gym" class="w-full h-full  object-cover" @load="handleImageLoad('about-img-2')">
               </div>
             </div>
 
             <!-- Right Column - One tall image -->
-            <div class="rounded-2xl overflow-hidden h-full">
-              <img src="@/assets/svg/kneelingwoman.svg" alt="bng kneeling woman" class="w-full h-full object-cover">
+            <div :class="['rounded-2xl overflow-hidden h-full', !imageLoaded['about-img-3'] && 'bg-gray-200 animate-pulse']">
+              <img src="@/assets/svg/kneelingwoman.svg" alt="bng kneeling woman" class="w-full h-full object-cover" @load="handleImageLoad('about-img-3')">
             </div>
           </div>
         </div>
@@ -229,8 +236,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <!-- Left Side - Phone Mockup with Red Background -->
           <div class="order-2 lg:order-1" data-aos="fade-right">
-            <div class="bg-primary rounded-3xl p-8 pb-0 flex justify-center items-center">
-              <img src="@/assets/svg/phone.svg" alt="bng phone">
+            <div :class="['bg-primary rounded-3xl p-8 pb-0 flex justify-center items-center', !imageLoaded['phone-about'] && 'animate-pulse']">
+              <img src="@/assets/svg/phone.svg" alt="bng phone" class="w-full h-auto" @load="handleImageLoad('phone-about')">
             </div>
           </div>
 
