@@ -1,125 +1,233 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import TabNavigation from '@/components/TabNavigation.vue'
+import Table from '@/components/Table.vue'
 
-const users = ref([
-  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active', avatar: 'JD' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User', status: 'Active', avatar: 'JS' },
-  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'User', status: 'Inactive', avatar: 'BJ' },
-  { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Manager', status: 'Active', avatar: 'AB' },
-  { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', role: 'User', status: 'Active', avatar: 'CW' },
+const router = useRouter()
+
+// Active tab state
+const activeTab = ref('users')
+
+// Tabs configuration
+const tabs = [
+  { name: 'Users', value: 'users' },
+  { name: 'Trainers', value: 'trainers' }
+]
+
+// Search query
+const searchQuery = ref('')
+
+// Filter dropdown
+const selectedFilter = ref('All')
+const filterOptions = ['All', 'Active', 'Deactivated']
+
+// Sample Users Data
+const usersData = ref([
+  { id: 1, userName: 'Paul Barnabas', email: 'Violet_Zboncak-Feil@gmail.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 2, userName: 'Violet Zboncak-Feil', email: 'Gilbert_Flatley@yahoo.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 3, userName: 'Gilbert Flatley', email: 'Jenna44@yahoo.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 4, userName: 'Jenna Bosco', email: 'Neal.Howell@hotmail.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 5, userName: 'Neal Howell', email: 'April.Bechtelar44@yahoo.com', phone: '+234 4636 736 332', status: 'Deactivated' },
+  { id: 6, userName: 'April Bechtelar', email: 'Randall_Nicolas27@yahoo.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 7, userName: 'Randall Nicolas', email: 'Beatrice39@hotmail.com', phone: '+234 4636 736 332', status: 'Deactivated' },
+  { id: 8, userName: 'Beatrice Collins', email: 'Levi50@yahoo.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 9, userName: 'Levi Dare', email: 'Monique66@yahoo.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 10, userName: "Monique O'Keefe", email: 'Dean72@gmail.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 11, userName: 'Dean Swift', email: 'Debbie.Ferry@yahoo.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 12, userName: 'Debbie Ferry', email: 'Tomas_DuBuque@hotmail.com', phone: '+234 4636 736 332', status: 'Active' }
 ])
 
-const getRoleColor = (role) => {
-  const colors = {
-    'Admin': 'bg-red-100 text-red-800',
-    'Manager': 'bg-blue-100 text-blue-800',
-    'User': 'bg-gray-100 text-gray-800',
-  }
-  return colors[role] || 'bg-gray-100 text-gray-800'
+// Sample Trainers Data
+const trainersData = ref([
+  { id: 1, userName: 'John Smith', email: 'john.smith@gmail.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 2, userName: 'Sarah Johnson', email: 'sarah.j@yahoo.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 3, userName: 'Mike Wilson', email: 'mike.w@hotmail.com', phone: '+234 4636 736 332', status: 'Deactivated' },
+  { id: 4, userName: 'Emily Davis', email: 'emily.d@gmail.com', phone: '+234 4636 736 332', status: 'Active' },
+  { id: 5, userName: 'Chris Brown', email: 'chris.b@yahoo.com', phone: '+234 4636 736 332', status: 'Active' }
+])
+
+// Table columns
+const columns = [
+  { key: 'id', label: 'ID' },
+  { key: 'userName', label: 'User Name' },
+  { key: 'email', label: 'Email Address' },
+  { key: 'phone', label: 'Phone Number' },
+  { key: 'status', label: 'Status' },
+  { key: 'action', label: 'Actions' }
+]
+
+// Status styles
+const statusStyles = {
+  'Active': 'px-4 py-1.5 bg-green-50 text-green-600 rounded-full text-sm font-medium border border-green-200 inline-block',
+  'Deactivated': 'px-4 py-1.5 bg-red-50 text-red-600 rounded-full text-sm font-medium border border-red-200 inline-block'
 }
 
-const getStatusColor = (status) => {
-  return status === 'Active' 
-    ? 'bg-green-100 text-green-800' 
-    : 'bg-gray-100 text-gray-800'
+// Computed: Get current data based on active tab
+const currentData = computed(() => {
+  return activeTab.value === 'users' ? usersData.value : trainersData.value
+})
+
+// Computed: Filtered data based on search and filter
+const filteredData = computed(() => {
+  let data = currentData.value
+
+  // Apply status filter
+  if (selectedFilter.value !== 'All') {
+    data = data.filter(item => item.status === selectedFilter.value)
+  }
+
+  // Apply search filter
+  if (searchQuery.value.trim()) {
+    const query = searchQuery.value.toLowerCase()
+    data = data.filter(item => 
+      item.userName.toLowerCase().includes(query) ||
+      item.email.toLowerCase().includes(query) ||
+      item.phone.includes(query)
+    )
+  }
+
+  return data
+})
+
+// Methods
+const handleView = (row) => {
+  router.push({ name: 'admin-view-user', params: { id: row.id } })
+}
+
+const handleDelete = (row) => {
+  console.log('Delete:', row)
+  // Implement delete logic
 }
 </script>
 
 <template>
-  <div>
-    <div class="mb-6 flex items-center justify-between">
+  <div class="space-y-6">
+    <!-- Header Section -->
+    <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Users Management</h1>
-        <p class="text-gray-600">Manage all user accounts</p>
+        <h1 class="text-2xl font-semibold text-gray-900">User</h1>
+        <nav class="flex items-center gap-2 text-sm text-gray-500 mt-1">
+          <span>Dashboard</span>
+          <span>→</span>
+          <span class="text-gray-900">Users</span>
+        </nav>
       </div>
-      <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
-        + Add New User
-      </button>
     </div>
 
-    <div class="bg-white rounded-xl shadow-md border border-gray-100">
-      <div class="p-6 border-b border-gray-200">
-        <div class="flex items-center gap-4">
-          <input 
-            type="search" 
-            placeholder="Search users..." 
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <select class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>All Roles</option>
-            <option>Admin</option>
-            <option>Manager</option>
-            <option>User</option>
-          </select>
+    <!-- Tab Navigation -->
+    <TabNavigation v-model="activeTab" :tabs="tabs" />
+
+    <!-- Search and Filter Section -->
+    <div class="flex items-center gap-4">
+      <!-- Filter Dropdown -->
+      <div class="relative">
+        <select 
+          v-model="selectedFilter"
+          class="px-4 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm font-normal focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white cursor-pointer appearance-none min-w-[120px]"
+        >
+          <option v-for="option in filterOptions" :key="option" :value="option">
+            {{ option }}
+          </option>
+        </select>
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z" fill="#6B7280"/>
+          </svg>
         </div>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full">
-          <thead>
-            <tr class="border-b border-gray-200 bg-gray-50">
-              <th class="text-left py-4 px-6 text-sm font-semibold text-gray-700">User</th>
-              <th class="text-left py-4 px-6 text-sm font-semibold text-gray-700">Email</th>
-              <th class="text-left py-4 px-6 text-sm font-semibold text-gray-700">Role</th>
-              <th class="text-left py-4 px-6 text-sm font-semibold text-gray-700">Status</th>
-              <th class="text-left py-4 px-6 text-sm font-semibold text-gray-700">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr 
-              v-for="user in users" 
-              :key="user.id"
-              class="border-b border-gray-100 hover:bg-gray-50 transition-colors"
-            >
-              <td class="py-4 px-6">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-                    {{ user.avatar }}
-                  </div>
-                  <span class="font-medium text-gray-900">{{ user.name }}</span>
-                </div>
-              </td>
-              <td class="py-4 px-6 text-gray-600">{{ user.email }}</td>
-              <td class="py-4 px-6">
-                <span :class="[getRoleColor(user.role), 'px-3 py-1 rounded-full text-xs font-medium']">
-                  {{ user.role }}
-                </span>
-              </td>
-              <td class="py-4 px-6">
-                <span :class="[getStatusColor(user.status), 'px-3 py-1 rounded-full text-xs font-medium']">
-                  {{ user.status }}
-                </span>
-              </td>
-              <td class="py-4 px-6">
-                <div class="flex items-center gap-2">
-                  <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">Edit</button>
-                  <button class="text-red-600 hover:text-red-700 text-sm font-medium">Delete</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Search Input -->
+      <div class="relative flex-1 max-w-md">
+        <input 
+          v-model="searchQuery"
+          type="text" 
+          placeholder="Search"
+          class="w-full pl-4 pr-10 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        />
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.5 16.5L13.5 13.5M15 8.25C15 11.9779 11.9779 15 8.25 15C4.52208 15 1.5 11.9779 1.5 8.25C1.5 4.52208 4.52208 1.5 8.25 1.5C11.9779 1.5 15 4.52208 15 8.25Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
       </div>
+    </div>
 
-      <div class="p-6 border-t border-gray-200">
-        <div class="flex items-center justify-between">
-          <p class="text-sm text-gray-600">Showing 1 to 5 of 5 users</p>
-          <div class="flex gap-2">
-            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium">
-              Previous
+    <!-- Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+      <Table 
+        :data="filteredData" 
+        :columns="columns"
+        :statusStyles="statusStyles"
+      >
+        <template #action="{ row }">
+          <div class="flex items-center gap-3">
+            <!-- View Button -->
+            <button 
+              @click="handleView(row)"
+              class="text-gray-600 hover:text-primary transition-colors"
+              title="View"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 5C5.83333 5 2.5 10 2.5 10C2.5 10 5.83333 15 10 15C14.1667 15 17.5 10 17.5 10C17.5 10 14.1667 5 10 5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
-            <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium">
-              1
-            </button>
-            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium">
-              Next
+
+            <!-- Delete Button -->
+            <button 
+              @click="handleDelete(row)"
+              class="text-gray-600 hover:text-red-600 transition-colors"
+              title="Delete"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 5H17.5M8.33333 8.33333V13.3333M11.6667 8.33333V13.3333M3.33333 5L4.16667 16.6667C4.16667 17.1087 4.34226 17.5326 4.65482 17.8452C4.96738 18.1577 5.39131 18.3333 5.83333 18.3333H14.1667C14.6087 18.3333 15.0326 18.1577 15.3452 17.8452C15.6577 17.5326 15.8333 17.1087 15.8333 16.6667L16.6667 5M7.5 5V3.33333C7.5 3.11232 7.5878 2.90036 7.74408 2.74408C7.90036 2.5878 8.11232 2.5 8.33333 2.5H11.6667C11.8877 2.5 12.0996 2.5878 12.2559 2.74408C12.4122 2.90036 12.5 3.11232 12.5 3.33333V5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
           </div>
-        </div>
-      </div>
+        </template>
+      </Table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-end gap-2">
+      <button class="w-9 h-9 flex items-center justify-center rounded-md bg-primary text-white text-sm font-medium">
+        1
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        2
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        3
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        4
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        5
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        6
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        7
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        8
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        9
+      </button>
+      <button class="w-9 h-9 flex items-center justify-center rounded-md border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50">
+        →
+      </button>
     </div>
   </div>
 </template>
 
 <style scoped>
+/* Custom select dropdown styling */
+select {
+  background-image: none;
+}
 </style>

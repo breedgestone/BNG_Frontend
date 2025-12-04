@@ -1,159 +1,147 @@
 <script setup>
-import { ref } from 'vue'
-import { RouterView, useRouter } from 'vue-router'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import Sidebar from '@/components/Layout/AdminDashboard/Sidebar.vue'
+import AdminDashboard from '@/components/Layout/AdminDashboard/AdminDashboardNavbar.vue'
+import { useRoute, useRouter } from 'vue-router'
+import BaseModal from '@/components/BaseModal.vue'
+import BngButton from '@/components/BngButton.vue'
 
+const route = useRoute()
 const router = useRouter()
-const sidebarOpen = ref(true)
-const userMenuOpen = ref(false)
 
-const menuItems = [
-  { name: 'Dashboard', path: '/admin', icon: '📊' },
-  { name: 'Users', path: '/admin/users', icon: '👥' },
-  { name: 'Products', path: '/admin/products', icon: '📦' },
-  { name: 'Orders', path: '/admin/orders', icon: '🛒' },
-  { name: 'Analytics', path: '/admin/analytics', icon: '📈' },
-  { name: 'Settings', path: '/admin/settings', icon: '⚙️' },
-]
+const showBaseModal = ref(false)
+const isSidebarOpen = ref(true)
 
-const toggleSidebar = () => {
-  sidebarOpen.value = !sidebarOpen.value
+// Mock user data - replace with actual auth store if available
+const userName = computed(() => 'Admin User')
+
+const signOut = () => {
+  // Add logout logic here
+  showBaseModal.value = false
+  router.push('/')
 }
 
-const logout = () => {
-  // Add logout logic here
-  router.push('/')
+const handleResize = () => {
+  if (window.innerWidth < 900) {
+    isSidebarOpen.value = false
+  } else {
+    isSidebarOpen.value = true
+  }
+}
+
+onMounted(() => {
+  handleResize()
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value
 }
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100 flex">
+  <div class="dashboard-layout">
     <!-- Sidebar -->
-    <aside 
-      :class="[
-        'bg-gray-900 text-white transition-all duration-300 flex flex-col',
-        sidebarOpen ? 'w-64' : 'w-20'
-      ]"
-    >
-      <!-- Logo -->
-      <div class="p-4 border-b border-gray-800">
-        <div class="flex items-center justify-between">
-          <RouterLink to="/admin" class="flex items-center gap-3">
-            <span class="text-2xl">🎯</span>
-            <span v-if="sidebarOpen" class="text-xl font-bold">BNG Admin</span>
-          </RouterLink>
-          <button 
-            @click="toggleSidebar"
-            class="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-            :class="{ 'mx-auto': !sidebarOpen }"
-          >
-            <span v-if="sidebarOpen">←</span>
-            <span v-else>→</span>
-          </button>
-        </div>
+    <Sidebar 
+      @showLogoutModal="showBaseModal = true" 
+      v-if="isSidebarOpen" 
+      @close="toggleSidebar"
+      :class="['sidebar', { 'sidebar-open': isSidebarOpen }]" 
+    />
+
+    <!-- Main Content -->
+    <main class="content">
+      <div class="sticky top-0 z-50">
+        <AdminDashboard 
+          @showLogoutModal="showBaseModal = true" 
+          :showLogo="isSidebarOpen ? false : true" 
+        />
       </div>
-
-      <!-- Navigation -->
-      <nav class="flex-1 p-4">
-        <ul class="space-y-2">
-          <li v-for="item in menuItems" :key="item.path">
-            <RouterLink
-              :to="item.path"
-              class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
-              active-class="bg-blue-600 hover:bg-blue-700"
-            >
-              <span class="text-xl">{{ item.icon }}</span>
-              <span v-if="sidebarOpen" class="font-medium">{{ item.name }}</span>
-            </RouterLink>
-          </li>
-        </ul>
-      </nav>
-
-      <!-- User Section -->
-      <div class="p-4 border-t border-gray-800">
-        <div class="relative">
-          <button 
-            @click="userMenuOpen = !userMenuOpen"
-            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
-          >
-            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-              <span class="text-sm font-bold">A</span>
-            </div>
-            <div v-if="sidebarOpen" class="flex-1 text-left">
-              <p class="text-sm font-medium">Admin User</p>
-              <p class="text-xs text-gray-400">admin@bng.com</p>
-            </div>
-          </button>
-
-          <!-- User Dropdown -->
-          <div 
-            v-if="userMenuOpen && sidebarOpen"
-            class="absolute bottom-full left-0 right-0 mb-2 bg-gray-800 rounded-lg shadow-lg overflow-hidden"
-          >
-            <RouterLink 
-              to="/admin/profile" 
-              class="block px-4 py-2 hover:bg-gray-700 transition-colors"
-            >
-              Profile
-            </RouterLink>
-            <button 
-              @click="logout"
-              class="w-full text-left px-4 py-2 hover:bg-gray-700 transition-colors text-red-400"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
+      <div :class="['bg-gray-100', route.name !== 'Admin Messages' ? 'sm:p-8 p-4' : '']">
+        <router-view />
       </div>
-    </aside>
+    </main>
 
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col min-h-screen">
-      <!-- Top Header -->
-      <header class="bg-white shadow-sm sticky top-0 z-40">
-        <div class="px-6 py-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <p class="text-sm text-gray-600">Welcome back, Admin!</p>
-            </div>
-            <div class="flex items-center gap-4">
-              <!-- Notifications -->
-              <button class="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <span class="text-2xl">🔔</span>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <!-- Search -->
-              <div class="hidden md:block">
-                <input 
-                  type="search" 
-                  placeholder="Search..." 
-                  class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-          </div>
+    <!-- Logout Modal -->
+    <BaseModal v-model="showBaseModal">
+      <template #icon>
+        <div class="w-10 h-10 rounded-full bg-error-100 flex items-center justify-center text-error">
+          <p class="text-lg font-semibold">?</p>
         </div>
-      </header>
+      </template>
 
-      <!-- Page Content -->
-      <main class="flex-1 p-6 overflow-auto">
-        <RouterView />
-      </main>
+      <template #title>Sign Out?</template>
 
-      <!-- Footer -->
-      <footer class="bg-white border-t border-gray-200 px-6 py-4">
-        <div class="flex items-center justify-between text-sm text-gray-600">
-          <p>&copy; 2025 BNG Admin. All rights reserved.</p>
-          <div class="flex gap-4">
-            <a href="#" class="hover:text-blue-600">Help</a>
-            <a href="#" class="hover:text-blue-600">Privacy</a>
-            <a href="#" class="hover:text-blue-600">Terms</a>
-          </div>
+      <template #description>
+        Do you want to sign out of your <strong>{{ userName }}</strong> account?
+      </template>
+
+      <template #actions>
+        <div class="flex w-full justify-center gap-3">
+          <BngButton 
+            class="flex-1" 
+            variant="outline" 
+            @click="showBaseModal = false"
+          >
+            Cancel
+          </BngButton>
+          <BngButton 
+            class="flex-1" 
+            @click="signOut" 
+            variant="error"
+          > 
+            Yes, Sign Out 
+          </BngButton>
         </div>
-      </footer>
-    </div>
+      </template>
+    </BaseModal>
   </div>
 </template>
 
 <style scoped>
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  transition: transform 0.3s ease;
+}
+
+/* By default, hide sidebar on mobile */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 20;
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+}
+
+/* Main content */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+/* Menu button */
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 </style>

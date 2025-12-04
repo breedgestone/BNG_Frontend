@@ -1,0 +1,176 @@
+<script setup>
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import Sidebar from '@/components/Layout/AdminDashboard/Sidebar.vue'
+import AdminDashboard from '@/components/Layout/AdminDashboard/AdminDashboardNavbar.vue'
+import { useRoute, useRouter } from 'vue-router'
+import BaseModal from '@/components/BaseModal.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+const showBaseModal = ref(false)
+const isSidebarOpen = ref(true)
+
+// Mock user data - replace with actual auth store if available
+const userName = computed(() => 'Admin User')
+
+const signOut = () => {
+  // Add logout logic here
+  showBaseModal.value = false
+  router.push('/')
+}
+
+const handleResize = () => {
+  if (window.innerWidth < 900) {
+    isSidebarOpen.value = false
+  } else {
+    isSidebarOpen.value = true
+  }
+}
+
+onMounted(() => {
+  handleResize()
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value
+}
+</script>
+
+<template>
+  <div class="min-h-screen bg-gray-100 flex">
+    <!-- Sidebar -->
+    <aside 
+      :class="[
+        'bg-gray-900 text-white transition-all duration-300 flex flex-col',
+        sidebarOpen ? 'w-64' : 'w-20'
+      ]"
+    >
+      <!-- Logo -->
+      <div class="p-4 border-b border-gray-800">
+        <div class="flex items-center justify-between">
+          <RouterLink to="/admin" class="flex items-center gap-3">
+            <span class="text-2xl">🎯</span>
+            <span v-if="sidebarOpen" class="text-xl font-bold">BNG Admin</span>
+          </RouterLink>
+          <button 
+            @click="toggleSidebar"
+            class="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+            :class="{ 'mx-auto': !sidebarOpen }"
+          >
+            <span v-if="sidebarOpen">←</span>
+            <span v-else>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex-1 p-4">
+        <ul class="space-y-2">
+          <li v-for="item in menuItems" :key="item.path">
+            <RouterLink
+              :to="item.path"
+              class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
+              active-class="bg-blue-600 hover:bg-blue-700"
+            >
+              <span class="text-xl">{{ item.icon }}</span>
+              <span v-if="sidebarOpen" class="font-medium">{{ item.name }}</span>
+            </RouterLink>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- User Section -->
+      <div class="p-4 border-t border-gray-800">
+        <div class="relative">
+          <button 
+            @click="userMenuOpen = !userMenuOpen"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+              <span class="text-sm font-bold">A</span>
+            </div>
+            <div v-if="sidebarOpen" class="flex-1 text-left">
+              <p class="text-sm font-medium">Admin User</p>
+              <p class="text-xs text-gray-400">admin@bng.com</p>
+            </div>
+          </button>
+
+          <!-- User Dropdown -->
+          <div 
+            v-if="userMenuOpen && sidebarOpen"
+            class="absolute bottom-full left-0 right-0 mb-2 bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+          >
+            <RouterLink 
+              to="/admin/profile" 
+              class="block px-4 py-2 hover:bg-gray-700 transition-colors"
+            >
+              Profile
+            </RouterLink>
+            <button 
+              @click="logout"
+              class="w-full text-left px-4 py-2 hover:bg-gray-700 transition-colors text-red-400"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-h-screen">
+      <!-- Top Header -->
+      <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="px-6 py-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+              <p class="text-sm text-gray-600">Welcome back, Admin!</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <!-- Notifications -->
+              <button class="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <span class="text-2xl">🔔</span>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              </button>
+              <!-- Search -->
+              <div class="hidden md:block">
+                <input 
+                  type="search" 
+                  placeholder="Search..." 
+                  class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="flex-1 p-6 overflow-auto">
+        <RouterView />
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-white border-t border-gray-200 px-6 py-4">
+        <div class="flex items-center justify-between text-sm text-gray-600">
+          <p>&copy; 2025 BNG Admin. All rights reserved.</p>
+          <div class="flex gap-4">
+            <a href="#" class="hover:text-blue-600">Help</a>
+            <a href="#" class="hover:text-blue-600">Privacy</a>
+            <a href="#" class="hover:text-blue-600">Terms</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+</style>

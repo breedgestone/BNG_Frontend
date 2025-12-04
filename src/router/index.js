@@ -58,29 +58,79 @@ const router = createRouter({
           component: () => import('../views/admin/UsersView.vue'),
         },
         {
-          path: 'products',
-          name: 'admin-products',
-          component: () => import('../views/admin/ProductsView.vue'),
+          path: 'users/:id',
+          name: 'admin-view-user',
+          component: () => import('../views/admin/ViewUserView.vue'),
         },
         {
-          path: 'orders',
-          name: 'admin-orders',
-          component: () => import('../views/admin/DashboardView.vue'), // Reusing for now
+          path: 'workouts',
+          name: 'admin-workouts',
+          component: () => import('../views/admin/WorkoutsView.vue'),
         },
         {
-          path: 'analytics',
-          name: 'admin-analytics',
-          component: () => import('../views/admin/DashboardView.vue'), // Reusing for now
+          path: 'subscriptions',
+          name: 'admin-subscriptions',
+          component: () => import('../views/admin/SubscriptionsView.vue'),
         },
         {
-          path: 'settings',
-          name: 'admin-settings',
-          component: () => import('../views/admin/DashboardView.vue'), // Reusing for now
+          path: 'sign-in-scans',
+          name: 'admin-sign-in-scans',
+          component: () => import('../views/admin/SignInScansView.vue'),
+        },
+        {
+          path: 'schedule',
+          name: 'admin-schedule',
+          component: () => import('../views/admin/ScheduleView.vue'),
+        },
+        {
+          path: 'challenges',
+          name: 'admin-challenges',
+          component: () => import('../views/admin/ChallengesView.vue'),
+        },
+        {
+          path: 'promotion',
+          name: 'admin-promotion',
+          component: () => import('../views/admin/PromotionView.vue'),
+        },
+        {
+          path: 'payout',
+          name: 'admin-payout',
+          component: () => import('../views/admin/PayoutView.vue'),
+        },
+        {
+          path: 'leadership-board',
+          name: 'admin-leadership-board',
+          component: () => import('../views/admin/LeadershipBoardView.vue'),
+        },
+        {
+          path: 'messages',
+          name: 'admin-messages',
+          component: () => import('../views/admin/MessagesView.vue'),
+        },
+        {
+          path: 'customer-reviews',
+          name: 'admin-customer-reviews',
+          component: () => import('../views/admin/CustomerReviewsView.vue'),
+        },
+        {
+          path: 'reports',
+          name: 'admin-reports',
+          component: () => import('../views/admin/ReportsView.vue'),
+        },
+        {
+          path: 'support-ticket',
+          name: 'admin-support-ticket',
+          component: () => import('../views/admin/SupportTicketView.vue'),
+        },
+        {
+          path: 'admins',
+          name: 'admin-admins',
+          component: () => import('../views/admin/AdminsView.vue'),
         },
         {
           path: 'profile',
           name: 'admin-profile',
-          component: () => import('../views/admin/DashboardView.vue'), // Reusing for now
+          component: () => import('../views/admin/ProfileView.vue'),
         },
       ],
     },
