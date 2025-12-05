@@ -68,6 +68,11 @@ const router = createRouter({
           component: () => import('../views/admin/WorkoutsView.vue'),
         },
         {
+          path: 'workouts/add',
+          name: 'admin-add-workout',
+          component: () => import('../views/admin/AddWorkoutView.vue'),
+        },
+        {
           path: 'subscriptions',
           name: 'admin-subscriptions',
           component: () => import('../views/admin/SubscriptionsView.vue'),
