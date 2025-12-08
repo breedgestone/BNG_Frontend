@@ -83,7 +83,12 @@ const filteredData = computed(() => {
 // Methods
 const handleView = (row) => {
   console.log('View workout:', row)
-  // Implement view logic - could navigate to workout detail page
+  // Navigate to edit/view workout page with ID
+  if (activeTab.value === 'home-workouts') {
+    router.push({ name: 'admin-edit-workout', params: { id: row.id } })
+  } else {
+    router.push({ name: 'admin-edit-class', params: { id: row.id } })
+  }
 }
 
 const handleDelete = (row) => {
@@ -92,7 +97,11 @@ const handleDelete = (row) => {
 }
 
 const addWorkout = () => {
-  router.push({ name: 'admin-add-workout' })
+  if (activeTab.value === 'home-workouts') {
+    router.push({ name: 'admin-add-workout' })
+  } else {
+    router.push({ name: 'admin-add-class' })
+  }
 }
 </script>
 
@@ -182,7 +191,7 @@ const addWorkout = () => {
         @click="addWorkout"
         class="px-6 py-2.5 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-600 transition-colors whitespace-nowrap ml-auto"
       >
-        Add Workout
+        {{ activeTab === 'home-workouts' ? 'Add Workout' : 'Add Classes' }}
       </button>
     </div>
 

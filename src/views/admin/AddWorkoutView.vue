@@ -1,8 +1,14 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
 
 const router = useRouter()
+const route = useRoute()
+
+// Check if we're in edit mode
+const isEditMode = ref(false)
+const workoutId = ref(null)
 
 // Form fields
 const workoutName = ref('')
@@ -28,6 +34,43 @@ const exercises = ref([
 
 // Show success modal
 const showSuccessModal = ref(false)
+const successTitle = ref('')
+const successDescription = ref('')
+
+// Load workout data if editing
+onMounted(() => {
+  if (route.params.id) {
+    isEditMode.value = true
+    workoutId.value = route.params.id
+    loadWorkoutData()
+  }
+})
+
+// Load workout data for editing
+const loadWorkoutData = () => {
+  // TODO: Fetch workout data from API
+  console.log('Loading workout data for ID:', workoutId.value)
+  
+  // Mock data for now
+  workoutName.value = 'Cardio Breath Training'
+  workoutType.value = 'paid'
+  level.value = 'intermediate'
+  targetedBodyParts.value = 'chest'
+  duration.value = '30'
+  expectedCalories.value = '2000'
+  
+  exercises.value = [
+    {
+      id: 1,
+      name: 'Burpees',
+      overview: 'Full body exercise combining squat, push-up, and jump',
+      focusAreas: 'chest',
+      commonMistakes: 'Not going low enough in squat position',
+      breathingTips: 'Exhale on the jump, inhale on the squat',
+      video: null
+    }
+  ]
+}
 
 // Add another exercise
 const addExercise = () => {
@@ -79,7 +122,7 @@ const handleCancel = () => {
 
 // Save workout
 const handleSave = () => {
-  console.log('Saving workout...', {
+  const workoutData = {
     workoutName: workoutName.value,
     workoutType: workoutType.value,
     level: level.value,
@@ -87,7 +130,17 @@ const handleSave = () => {
     duration: duration.value,
     expectedCalories: expectedCalories.value,
     exercises: exercises.value
-  })
+  }
+  
+  if (isEditMode.value) {
+    console.log('Updating workout:', workoutId.value, workoutData)
+    successTitle.value = 'Workout Updated Successfully'
+    successDescription.value = 'You have updated this workout for users'
+  } else {
+    console.log('Creating new workout:', workoutData)
+    successTitle.value = 'Workout Created Successfully'
+    successDescription.value = 'You have created this workouts for users'
+  }
   
   // Show success modal
   showSuccessModal.value = true
@@ -104,11 +157,13 @@ const closeSuccessModal = () => {
   <div class="space-y-6 pb-20">
     <!-- Header Section -->
     <div>
-      <h1 class="text-2xl font-semibold text-gray-900">Add Workout</h1>
+      <h1 class="text-2xl font-semibold text-gray-900">
+        {{ isEditMode ? 'Edit Workout' : 'Add Workout' }}
+      </h1>
       <nav class="flex items-center gap-2 text-sm text-gray-500 mt-1">
-        <span>Dashboard</span>
+        <button class="cursor-pointer" @click="router.push('/admin/workouts')">Workouts</button>
         <span>→</span>
-        <span class="text-primary">Add Workout</span>
+        <span class="text-primary">{{ isEditMode ? 'Edit Workout' : 'Add Workout' }}</span>
       </nav>
     </div>
 
@@ -345,47 +400,22 @@ const closeSuccessModal = () => {
     </div>
 
     <!-- Success Modal -->
-    <div 
-      v-if="showSuccessModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    <ConfirmDialog
+      v-model="showSuccessModal"
+      type="success"
+      :title="successTitle"
+      :description="successDescription"
+      confirm-text="Okay"
+      :show-cancel="false"
+      :show-close="true"
+      @confirm="closeSuccessModal"
     >
-      <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 relative">
-        <!-- Close Button -->
-        <button 
-          @click="closeSuccessModal"
-          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-
-        <!-- Success Icon -->
-        <div class="flex justify-center mb-6">
-          <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 16L14 20L22 12" stroke="#E74C3C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Success Message -->
-        <h2 class="text-2xl font-bold text-gray-900 text-center mb-2">
-          Workout Created Successfully
-        </h2>
-        <p class="text-sm text-gray-600 text-center mb-8">
-          You have created this workouts for users
-        </p>
-
-        <!-- Okay Button -->
-        <button 
-          @click="closeSuccessModal"
-          class="w-full px-6 py-3 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-600 transition-colors"
-        >
-          Okay
-        </button>
-      </div>
-    </div>
+      <template #icon>
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.5 20L17.5 25L27.5 15" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </template>
+    </ConfirmDialog>
   </div>
 </template>
 
