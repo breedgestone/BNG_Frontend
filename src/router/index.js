@@ -25,6 +25,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginView.vue'),
+      meta: {
+        title: 'Login - BNG Fitness Hub',
+        description: 'Sign in to your BNG Fitness Hub account to access your personalized fitness journey.',
+        keywords: 'login, sign in, member portal, BNG fitness',
+      },
     },
     // Landing Page Routes
     {
@@ -35,16 +40,31 @@ const router = createRouter({
           path: '',
           name: 'home',
           component: () => import('../views/HomeView.vue'),
+          meta: {
+            title: 'BNG Fitness Hub - Transform Your Fitness Journey | Expert Trainers & Programs',
+            description: 'Join BNG Fitness Hub and unlock your potential with 40+ expert trainers, 33+ fitness programs, and a thriving community of 970+ members. Build better habits with guided fitness support.',
+            keywords: 'fitness gym, workout programs, personal trainers, fitness hub, gym membership, fitness community',
+          },
         },
         {
           path: 'about',
           name: 'about',
           component: () => import('../views/AboutView.vue'),
+          meta: {
+            title: 'About Us - BNG Fitness Hub | Our Mission & Values',
+            description: 'Learn about BNG Fitness Hub\'s mission to inspire, connect, and motivate every member. Discover our values, core beliefs, and commitment to your fitness journey.',
+            keywords: 'about BNG fitness, fitness gym mission, gym values, fitness community',
+          },
         },
         {
           path: 'contact',
           name: 'contact',
           component: () => import('../views/ContactView.vue'),
+          meta: {
+            title: 'Contact Us - BNG Fitness Hub | Get in Touch',
+            description: 'Get in touch with BNG Fitness Hub. We\'re here to assist you with memberships, programs, and any questions about your fitness journey.',
+            keywords: 'contact gym, fitness hub contact, gym inquiry, membership questions',
+          },
         },
       ],
     },
@@ -205,7 +225,64 @@ const router = createRouter({
         },
       ],
     },
+    // 404 Not Found Route - Must be last
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue'),
+      meta: {
+        title: '404 - Page Not Found | BNG Fitness Hub',
+        description: 'The page you are looking for cannot be found. Return to BNG Fitness Hub homepage to continue your fitness journey.',
+        keywords: '404, page not found',
+      },
+    },
   ],
+})
+
+// Update meta tags on route change
+router.afterEach((to) => {
+  // Update title
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+
+  // Update meta description
+  if (to.meta.description) {
+    let metaDescription = document.querySelector('meta[name="description"]')
+    if (metaDescription) {
+      metaDescription.setAttribute('content', to.meta.description)
+    }
+  }
+
+  // Update meta keywords
+  if (to.meta.keywords) {
+    let metaKeywords = document.querySelector('meta[name="keywords"]')
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content', to.meta.keywords)
+    }
+  }
+
+  // Update OG tags
+  if (to.meta.title) {
+    let ogTitle = document.querySelector('meta[property="og:title"]')
+    if (ogTitle) {
+      ogTitle.setAttribute('content', to.meta.title)
+    }
+  }
+
+  if (to.meta.description) {
+    let ogDescription = document.querySelector('meta[property="og:description"]')
+    if (ogDescription) {
+      ogDescription.setAttribute('content', to.meta.description)
+    }
+  }
+
+  // Update canonical URL
+  const baseUrl = 'https://www.bngfitness.com'
+  const canonical = document.querySelector('link[rel="canonical"]')
+  if (canonical) {
+    canonical.setAttribute('href', `${baseUrl}${to.path}`)
+  }
 })
 
 export default router

@@ -1,5 +1,14 @@
 <script setup>
 import { ref } from 'vue'
+import { useSEO } from '@/composables/useSEO'
+
+// SEO Optimization
+useSEO({
+  title: 'Contact Us - BNG Fitness Hub | Get in Touch',
+  description: 'Get in touch with BNG Fitness Hub. We\'re here to assist you with memberships, programs, and any questions about your fitness journey. Contact us today!',
+  keywords: 'contact gym, fitness hub contact, gym inquiry, membership questions, fitness support',
+  url: '/contact',
+})
 
 const formData = ref({
   name: '',

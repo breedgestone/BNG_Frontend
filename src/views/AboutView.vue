@@ -1,5 +1,14 @@
 <script setup>
 import { ref } from 'vue'
+import { useSEO } from '@/composables/useSEO'
+
+// SEO Optimization
+useSEO({
+  title: 'About Us - BNG Fitness Hub | Our Mission & Values',
+  description: 'Learn about BNG Fitness Hub\'s mission to inspire, connect, and motivate every member. Discover our values, core beliefs, and commitment to your fitness journey.',
+  keywords: 'about BNG fitness, fitness gym mission, gym values, fitness community, wellness goals',
+  url: '/about',
+})
 
 // Image loading states
 const imageLoaded = ref({})

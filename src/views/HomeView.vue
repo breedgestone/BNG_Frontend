@@ -3,11 +3,20 @@ import { ref } from 'vue'
 import BngButton from '@/components/BngButton.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
+import { useSEO } from '@/composables/useSEO'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 const swiperModules = [Navigation, Pagination, Autoplay]
+
+// SEO Optimization
+useSEO({
+  title: 'BNG Fitness Hub - Transform Your Fitness Journey | Expert Trainers & Programs',
+  description: 'Join BNG Fitness Hub and unlock your potential with 40+ expert trainers, 33+ fitness programs, and a thriving community of 970+ members. Build better habits with guided fitness support.',
+  keywords: 'fitness gym, workout programs, personal trainers, fitness hub, gym membership, fitness community, workout classes, strength training',
+  url: '/',
+})
 
 // Image loading states
 const imageLoaded = ref({})
@@ -92,22 +101,32 @@ const testimonials = [
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
           <!-- Left Image - Smaller, Portrait -->
           <div data-aos="fade-right" :class="['md:col-span-2 rounded-2xl overflow-hidden aspect-[2/4]', !imageLoaded['hero-1'] && 'bg-gray-200 animate-pulse']">
-            <!-- TODO: Add image - person in dark gym setting doing dumbbell exercise -->
-            <img src="@/assets/svg/basketBaller.svg" alt="bng image" class="w-full h-full object-cover" @load="handleImageLoad('hero-1')">
-
+            <img 
+              src="@/assets/svg/basketBaller.svg" 
+              alt="BNG Fitness Hub member doing dumbbell exercises in modern gym" 
+              class="w-full h-full object-cover" 
+              loading="eager"
+              @load="handleImageLoad('hero-1')">
           </div>
 
           <!-- Center Image - Larger, Landscape -->
           <div data-aos="fade-up" data-aos-delay="100" :class="['md:col-span-6 rounded-2xl overflow-hidden aspect-[4/3] md:aspect-[6/4]', !imageLoaded['hero-2'] && 'bg-gray-200 animate-pulse']">
-            <img src="@/assets/svg/weightlifting.svg" alt="bng image" class="w-full h-full object-cover" @load="handleImageLoad('hero-2')">
-
+            <img 
+              src="@/assets/svg/weightlifting.svg" 
+              alt="Professional weightlifting training at BNG Fitness Hub" 
+              class="w-full h-full object-cover" 
+              loading="eager"
+              @load="handleImageLoad('hero-2')">
           </div>
 
           <!-- Right Image - Smaller, Portrait -->
           <div data-aos="fade-left" data-aos-delay="200" :class="['md:col-span-4 rounded-2xl overflow-hidden aspect-[4/4]', !imageLoaded['hero-3'] && 'bg-gray-200 animate-pulse']">
-            <!-- TODO: Add image - person standing in dimly lit doorway/hallway -->
-            <img src="@/assets/svg/punchingbag.svg" alt="bng image" class="w-full h-full object-cover" @load="handleImageLoad('hero-3')">
-
+            <img 
+              src="@/assets/svg/punchingbag.svg" 
+              alt="Boxing and punching bag workout training at BNG gym" 
+              class="w-full h-full object-cover" 
+              loading="eager"
+              @load="handleImageLoad('hero-3')">
           </div>
         </div>
       </div>
@@ -138,20 +157,33 @@ const testimonials = [
           <!-- Right Side - Image Grid -->
           <div class="grid grid-cols-3 gap-4 md:gap-6" data-aos="fade-left">
             <!-- Top Left Image - Portrait -->
-            <div :class="['rounded-2xl overflow-hidden aspect-[1/3]', !imageLoaded['about-1'] && 'bg-gray-200 animate-pulse']">
-              <img class="h-full object-cover w-full" src="@/assets/svg/facinbackMan.svg" alt="" @load="handleImageLoad('about-1')">
+            <div :class="['rounded-2xl overflow-hidden aspect-1/3', !imageLoaded['about-1'] && 'bg-gray-200 animate-pulse']">
+              <img 
+                class="h-full object-cover w-full" 
+                src="@/assets/svg/facinbackMan.svg" 
+                alt="Focused athlete training at BNG Fitness Hub" 
+                loading="lazy"
+                @load="handleImageLoad('about-1')">
             </div>
 
             <!-- Top Right Image - Portrait -->
-            <div :class="['rounded-2xl overflow-hidden aspect-[1/3]', !imageLoaded['about-2'] && 'bg-gray-200 animate-pulse']">
-              <img class="h-full object-cover w-full" src="@/assets/svg/prettygirl.svg" alt="" @load="handleImageLoad('about-2')">
-
+            <div :class="['rounded-2xl overflow-hidden aspect-1/3', !imageLoaded['about-2'] && 'bg-gray-200 animate-pulse']">
+              <img 
+                class="h-full object-cover w-full" 
+                src="@/assets/svg/prettygirl.svg" 
+                alt="Female member doing fitness training at BNG gym" 
+                loading="lazy"
+                @load="handleImageLoad('about-2')">
             </div>
 
             <!-- Bottom Full Width - Landscape -->
-            <div :class="['rounded-2xl overflow-hidden aspect-[1/3]', !imageLoaded['about-3'] && 'bg-gray-200 animate-pulse']">
-              <img class="h-full object-cover w-full" src="@/assets/svg/muscularguy.svg" alt="" @load="handleImageLoad('about-3')">
-
+            <div :class="['rounded-2xl overflow-hidden aspect-1/3', !imageLoaded['about-3'] && 'bg-gray-200 animate-pulse']">
+              <img 
+                class="h-full object-cover w-full" 
+                src="@/assets/svg/muscularguy.svg" 
+                alt="Muscular athlete showing strength training results" 
+                loading="lazy"
+                @load="handleImageLoad('about-3')">
             </div>
           </div>
         </div>
@@ -187,8 +219,13 @@ const testimonials = [
               Build connections with like-minded individuals who push you to be your best while celebrating every
               milestone together.
             </p>
-            <div :class="['rounded-2xl overflow-hidden aspect-[4/5]', !imageLoaded['feature-1'] && 'bg-gray-200 animate-pulse']">
-              <img src="@/assets/svg/bicycledriving.svg" alt="bng bicycledriving" class="w-full h-full object-cover" @load="handleImageLoad('feature-1')">
+            <div :class="['rounded-2xl overflow-hidden aspect-4/5', !imageLoaded['feature-1'] && 'bg-gray-200 animate-pulse']">
+              <img 
+                src="@/assets/svg/bicycledriving.svg" 
+                alt="Group cycling class - community-driven fitness at BNG Hub" 
+                class="w-full h-full object-cover" 
+                loading="lazy"
+                @load="handleImageLoad('feature-1')">
             </div>
           </div>
 
@@ -208,8 +245,13 @@ const testimonials = [
               Track your progress with our innovative app and equipment, making every session smarter and more rewarding
               than the last.
             </p>
-            <div :class="['rounded-2xl overflow-hidden aspect-[4/5]', !imageLoaded['feature-2'] && 'bg-gray-200 animate-pulse']">
-              <img src="@/assets/svg/smartworkout.svg" alt="bng smartworkout" class="w-full h-full object-cover" @load="handleImageLoad('feature-2')">
+            <div :class="['rounded-2xl overflow-hidden aspect-4/5', !imageLoaded['feature-2'] && 'bg-gray-200 animate-pulse']">
+              <img 
+                src="@/assets/svg/smartworkout.svg" 
+                alt="Smart workout tracking technology at BNG Fitness Hub" 
+                class="w-full h-full object-cover" 
+                loading="lazy"
+                @load="handleImageLoad('feature-2')">
             </div>
           </div>
 
@@ -229,8 +271,13 @@ const testimonials = [
               Work with certified trainers who understand your goals and guide you every step, ensuring proper form and
               motivation.
             </p>
-            <div :class="['rounded-2xl overflow-hidden aspect-[4/5]', !imageLoaded['feature-3'] && 'bg-gray-200 animate-pulse']">
-              <img src="@/assets/svg/solotrainer.svg" alt="bng solotrainer" class="w-full h-full object-cover" @load="handleImageLoad('feature-3')">
+            <div :class="['rounded-2xl overflow-hidden aspect-4/5', !imageLoaded['feature-3'] && 'bg-gray-200 animate-pulse']">
+              <img 
+                src="@/assets/svg/solotrainer.svg" 
+                alt="Certified personal trainer providing one-on-one guidance" 
+                class="w-full h-full object-cover" 
+                loading="lazy"
+                @load="handleImageLoad('feature-3')">
             </div>
           </div>
         </div>
