@@ -4,7 +4,6 @@
       <!-- 404 Number -->
       <h1 class="text-9xl font-bold text-primary mb-4">404</h1>
       
-      <!-- Message -->
       <h2 class="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
         Page Not Found
       </h2>
@@ -35,12 +34,7 @@
           >
             Contact
           </router-link>
-          <router-link 
-            to="/login"
-            class="px-4 py-2 text-sm text-primary hover:underline"
-          >
-            Login
-          </router-link>
+
         </div>
       </div>
       
