@@ -34,12 +34,7 @@
           >
             Contact
           </router-link>
-          <router-link 
-            to="/login"
-            class="px-4 py-2 text-sm text-primary hover:underline"
-          >
-            Login
-          </router-link>
+
         </div>
       </div>
       
