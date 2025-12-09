@@ -144,7 +144,7 @@ const router = createRouter({
           component: () => import('../views/admin/ScheduleView.vue'),
         },
         {
-          path: 'challenges',
+          path: 'x',
           name: 'admin-challenges',
           component: () => import('../views/admin/ChallengesView.vue'),
         },
