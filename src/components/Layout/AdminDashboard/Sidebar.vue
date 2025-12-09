@@ -1,10 +1,11 @@
 <template>
     <aside class="lg:w-78 sm:w-68 w-full bg-white border-r border-gray-200 h-screen flex flex-col">
         <!-- Logo + Close (mobile only) -->
-        <div class="flex items-center justify-center px-6 pt-4 pb-3 border-b border-gray-200 shrink-0">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200 shrink-0">
             <button class="flex items-center space-x-2 cursor-pointer" @click="router.push('/')">
-                <img class="sm:w-fit sm:h-fit w-[118px] h-[19px]" src="@/assets/svg/logo.svg" alt="BNG" />
+                <img class="w-[118px] h-[19px]" src="@/assets/svg/logo.svg" alt="BNG" />
             </button>
+            <router-link to="/" class="text-gray-500 hover:text-gray-700 text-xl">✕</router-link>
         </div>
 
         <!-- Search -->
@@ -32,15 +33,11 @@
                         <template v-if="!item.children">
                             <router-link 
                                 :to="item.to"
-                                class="flex items-center justify-between px-3 py-2 rounded-3xl text-gray-600 hover:bg-primary-50 transition-colors duration-200"
+                                class="flex items-center justify-between px-3 py-2 rounded-3xl text-gray-600 hover:text-primary hover:bg-primary-50 transition-colors duration-200"
                                 :class="route.path === item.to ? 'bg-primary-50 text-primary font-semibold' : ''"
                             >
                                 <div class="flex items-center space-x-3">
-                                    <component 
-                                        :is="item.icon" 
-                                        :color="route.path === item.to ? item.activeIconColor : item.iconColor"
-                                        class="w-5 h-5"
-                                    />
+                                    <span class="text-xl">{{ item.icon }}</span>
                                     <span class="2xl:text-lg text-sm">{{ item.label }}</span>
                                 </div>
                                 <span class="text-gray-400">›</span>
@@ -55,11 +52,7 @@
                                 :class="expandedItems.includes(item.label) ? 'bg-primary-50 text-primary font-semibold' : ''"
                             >
                                 <div class="flex items-center space-x-3">
-                                    <component 
-                                        :is="item.icon" 
-                                        :color="expandedItems.includes(item.label) ? item.activeIconColor : item.iconColor"
-                                        class="w-5 h-5"
-                                    />
+                                    <span class="text-xl">{{ item.icon }}</span>
                                     <span class="2xl:text-lg text-sm">{{ item.label }}</span>
                                 </div>
                                 <svg 

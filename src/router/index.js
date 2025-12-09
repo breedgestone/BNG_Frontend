@@ -20,12 +20,6 @@ const router = createRouter({
     return { top: 0, behavior: 'smooth' }
   },
   routes: [
-    // Login Route (Standalone - No Layout)
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue'),
-    },
     // Landing Page Routes
     {
       path: '/',
@@ -64,54 +58,14 @@ const router = createRouter({
           component: () => import('../views/admin/UsersView.vue'),
         },
         {
-          path: 'users/:id',
-          name: 'admin-view-user',
-          component: () => import('../views/admin/ViewUserView.vue'),
-        },
-        {
           path: 'workouts',
           name: 'admin-workouts',
           component: () => import('../views/admin/WorkoutsView.vue'),
         },
         {
-          path: 'workouts/add',
-          name: 'admin-add-workout',
-          component: () => import('../views/admin/AddWorkoutView.vue'),
-        },
-        {
-          path: 'workouts/:id',
-          name: 'admin-edit-workout',
-          component: () => import('../views/admin/AddWorkoutView.vue'),
-        },
-        {
-          path: 'classes/add',
-          name: 'admin-add-class',
-          component: () => import('../views/admin/AddClassView.vue'),
-        },
-        {
-          path: 'classes/:id',
-          name: 'admin-edit-class',
-          component: () => import('../views/admin/AddClassView.vue'),
-        },
-        {
           path: 'subscriptions',
           name: 'admin-subscriptions',
           component: () => import('../views/admin/SubscriptionsView.vue'),
-        },
-        {
-          path: 'subscriptions/add',
-          name: 'admin-add-subscription',
-          component: () => import('../views/admin/AddSubscriptionView.vue'),
-        },
-        {
-          path: 'subscriptions/:id/edit',
-          name: 'admin-edit-subscription',
-          component: () => import('../views/admin/AddSubscriptionView.vue'),
-        },
-        {
-          path: 'subscriptions/:id',
-          name: 'admin-view-subscription',
-          component: () => import('../views/admin/ViewSubscriptionDetailsView.vue'),
         },
         {
           path: 'sign-in-scans',
@@ -129,29 +83,9 @@ const router = createRouter({
           component: () => import('../views/admin/ChallengesView.vue'),
         },
         {
-          path: 'challenges/add',
-          name: 'admin-add-challenge',
-          component: () => import('../views/admin/AddChallengeView.vue'),
-        },
-        {
-          path: 'challenges/:id',
-          name: 'admin-view-challenge',
-          component: () => import('../views/admin/ViewChallengeDetailsView.vue'),
-        },
-        {
           path: 'promotion',
           name: 'admin-promotion',
           component: () => import('../views/admin/PromotionView.vue'),
-        },
-        {
-          path: 'promotion/add',
-          name: 'admin-add-promotion',
-          component: () => import('../views/admin/AddPromotionView.vue'),
-        },
-        {
-          path: 'promotion/:id/edit',
-          name: 'admin-edit-promotion',
-          component: () => import('../views/admin/AddPromotionView.vue'),
         },
         {
           path: 'payout',
@@ -187,16 +121,6 @@ const router = createRouter({
           path: 'admins',
           name: 'admin-admins',
           component: () => import('../views/admin/AdminsView.vue'),
-        },
-        {
-          path: 'admins/add',
-          name: 'admin-add-admin',
-          component: () => import('../views/admin/AddAdminView.vue'),
-        },
-        {
-          path: 'admins/:id/edit',
-          name: 'admin-edit-admin',
-          component: () => import('../views/admin/AddAdminView.vue'),
         },
         {
           path: 'profile',

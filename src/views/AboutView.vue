@@ -50,9 +50,9 @@ const handleImageLoad = (key) => {
         </div>
 
         <!-- Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
           <!-- Left Side - Text Content (2x2 Grid) -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" data-aos="fade-right">
+          <div class="lg:flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" data-aos="fade-right">
             <!-- Value -->
             <div class="flex gap-4">
               <div
@@ -134,23 +134,25 @@ const handleImageLoad = (key) => {
           </div>
 
           <!-- Right Side - Image Grid -->
-          <div class="grid grid-cols-2 gap-4 md:gap-6 h-[500px] md:h-[600px]" data-aos="fade-left">
+          <div class="lg:flex-1 flex gap-4 md:gap-6 h-[400px] sm:h-[500px]" data-aos="fade-left">
             <!-- Left Column - Two stacked images -->
-            <div class="flex flex-col gap-4 md:gap-6">
+            <div class="flex-1 flex flex-col gap-4 md:gap-6">
               <!-- Top Left Image -->
-              <div :class="['rounded-2xl overflow-hidden h-1/2', !imageLoaded['about-img-1'] && 'bg-gray-200 animate-pulse']">
+              <div :class="['rounded-2xl overflow-hidden flex-1', !imageLoaded['about-img-1'] && 'bg-gray-200 animate-pulse']">
                 <img src="@/assets/svg/womanworkingout.svg" alt="bng woman working out" class="w-full h-full object-cover" @load="handleImageLoad('about-img-1')">
               </div>
               
               <!-- Bottom Left Image -->
-              <div :class="['rounded-2xl overflow-hidden h-1/2', !imageLoaded['about-img-2'] && 'bg-gray-200 animate-pulse']">
+              <div :class="['rounded-2xl overflow-hidden flex-1', !imageLoaded['about-img-2'] && 'bg-gray-200 animate-pulse']">
                 <img src="@/assets/svg/guywithrope.svg" alt="bng guy with rope at the gym" class="w-full h-full  object-cover" @load="handleImageLoad('about-img-2')">
               </div>
             </div>
 
             <!-- Right Column - One tall image -->
-            <div :class="['rounded-2xl overflow-hidden h-full', !imageLoaded['about-img-3'] && 'bg-gray-200 animate-pulse']">
-              <img src="@/assets/svg/kneelingwoman.svg" alt="bng kneeling woman" class="w-full h-full object-cover" @load="handleImageLoad('about-img-3')">
+            <div class="flex-1">
+              <div :class="['rounded-2xl overflow-hidden h-full', !imageLoaded['about-img-3'] && 'bg-gray-200 animate-pulse']">
+                <img src="@/assets/svg/kneelingwoman.svg" alt="bng kneeling woman" class="w-full h-full object-cover" @load="handleImageLoad('about-img-3')">
+              </div>
             </div>
           </div>
         </div>
@@ -236,8 +238,8 @@ const handleImageLoad = (key) => {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <!-- Left Side - Phone Mockup with Red Background -->
           <div class="order-2 lg:order-1" data-aos="fade-right">
-            <div :class="['bg-primary rounded-3xl p-8 pb-0 flex justify-center items-center', !imageLoaded['phone-about'] && 'animate-pulse']">
-              <img src="@/assets/svg/phone.svg" alt="bng phone" class="w-full h-auto" @load="handleImageLoad('phone-about')">
+            <div :class="['bg-primary rounded-3xl p-6 sm:p-8 flex justify-center items-center overflow-hidden h-[450px] sm:h-fit', !imageLoaded['phone-about'] && 'animate-pulse']">
+              <img src="@/assets/svg/phone.svg" alt="bng phone" class="w-auto h-[90%] max-w-full object-contain" @load="handleImageLoad('phone-about')">
             </div>
           </div>
 
