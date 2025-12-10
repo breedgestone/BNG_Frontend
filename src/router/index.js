@@ -5,19 +5,11 @@ import AdminLayout from '../layouts/AdminLayout.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
-    // If there's a saved position (browser back/forward), use it
     if (savedPosition) {
       return savedPosition
+    } else {
+      return { top: 0, left: 0 }
     }
-    // If navigating to a hash/anchor, scroll to it
-    if (to.hash) {
-      return {
-        el: to.hash,
-        behavior: 'smooth',
-      }
-    }
-    // Default: scroll to top of page
-    return { top: 0, behavior: 'smooth' }
   },
   routes: [
     // Login Route (Standalone - No Layout)
@@ -144,7 +136,7 @@ const router = createRouter({
           component: () => import('../views/admin/ScheduleView.vue'),
         },
         {
-          path: '/admin/challenges',
+          path: 'challenges',
           name: 'admin-challenges',
           component: () => import('../views/admin/ChallengesView.vue'),
         },
@@ -240,7 +232,7 @@ const router = createRouter({
 })
 
 // Update meta tags on route change
-router.afterEach((to) => {
+router.afterEach((to, from) => {
   // Update title
   if (to.meta.title) {
     document.title = to.meta.title

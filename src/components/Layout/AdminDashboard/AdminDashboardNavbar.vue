@@ -96,7 +96,11 @@
                             :class="route.path === item.to ? 'bg-primary-50 font-semibold text-primary' : ''"
                         >
                             <div class="flex items-center space-x-3">
-                                <span class="text-xl">{{ item.icon }}</span>
+                                <component 
+                                    :is="item.icon" 
+                                    :color="route.path === item.to ? item.activeIconColor : item.iconColor"
+                                    class="w-5 h-5"
+                                />
                                 <span class="text-sm">{{ item.label }}</span>
                             </div>
                             <span class="text-gray-400">›</span>
