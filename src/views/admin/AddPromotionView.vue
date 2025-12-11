@@ -62,13 +62,30 @@
           </div>
         </div>
 
-        <!-- Minimum Order Amount (Changed from Minimum usage Amount) -->
+        <!-- Subscription Plan -->
         <div>
-          <label class="block text-sm font-medium text-gray-800 mb-2">Minimum Order Amount</label>
+          <label class="block text-sm font-medium text-gray-800 mb-2">Subscription Plan</label>
+          <select 
+            v-model="formData.subscriptionPlan"
+            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary appearance-none cursor-pointer"
+          >
+            <option value="">Select subscription plan</option>
+            <option value="basic">Basic Plan</option>
+            <option value="standard">Standard Plan</option>
+            <option value="premium">Premium Plan</option>
+            <option value="elite">Elite Plan</option>
+          </select>
+        </div>
+
+        <!-- Discount Percentage -->
+        <div>
+          <label class="block text-sm font-medium text-gray-800 mb-2">Discount Percentage</label>
           <input 
-            type="text"
-            v-model="formData.minimumAmount"
-            placeholder="Enter minimum order amount"
+            type="number"
+            v-model="formData.discountPercentage"
+            placeholder="Enter discount percentage"
+            min="0"
+            max="100"
             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
@@ -132,7 +149,8 @@ const formData = ref({
   type: '',
   startDate: '',
   endDate: '',
-  minimumAmount: ''
+  subscriptionPlan: '',
+  discountPercentage: ''
 })
 
 const showSuccessModal = ref(false)
