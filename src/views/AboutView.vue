@@ -247,8 +247,8 @@ const handleImageLoad = (key) => {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <!-- Left Side - Phone Mockup with Red Background -->
           <div class="order-2 lg:order-1" data-aos="fade-right">
-            <div :class="['bg-primary rounded-3xl p-6 sm:p-8 flex justify-center items-center overflow-hidden h-[450px] sm:h-fit', !imageLoaded['phone-about'] && 'animate-pulse']">
-              <img src="@/assets/svg/phone.svg" alt="bng phone" class="w-auto h-[90%] max-w-full object-contain" @load="handleImageLoad('phone-about')">
+            <div class="bg-primary rounded-3xl p-6 sm:p-8 flex justify-center items-center overflow-hidden h-[450px] sm:h-auto sm:max-h-[80vh]">
+              <img src="@/assets/images/phone.webp" alt="bng phone" class="w-auto h-full max-h-[400px] sm:max-h-[70vh] max-w-full object-contain" loading="lazy">
             </div>
           </div>
 

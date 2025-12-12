@@ -102,7 +102,7 @@ const testimonials = [
           <!-- Left Image - Smaller, Portrait -->
           <div data-aos="fade-right" :class="['md:col-span-2 rounded-2xl overflow-hidden aspect-[2/4]', !imageLoaded['hero-1'] && 'bg-gray-200 animate-pulse']">
             <img 
-              src="@/assets/svg/basketBaller.svg" 
+              src="@/assets/images/basketBaller.webp" 
               alt="BNG Fitness Hub member doing dumbbell exercises in modern gym" 
               class="w-full h-full object-cover" 
               loading="eager"
@@ -112,7 +112,7 @@ const testimonials = [
           <!-- Center Image - Larger, Landscape -->
           <div data-aos="fade-up" data-aos-delay="100" :class="['md:col-span-6 rounded-2xl overflow-hidden aspect-[4/3] md:aspect-[6/4]', !imageLoaded['hero-2'] && 'bg-gray-200 animate-pulse']">
             <img 
-              src="@/assets/svg/weightlifting.svg" 
+              src="@/assets/images/weightlifting.webp" 
               alt="Professional weightlifting training at BNG Fitness Hub" 
               class="w-full h-full object-cover" 
               loading="eager"
@@ -122,7 +122,7 @@ const testimonials = [
           <!-- Right Image - Smaller, Portrait -->
           <div data-aos="fade-left" data-aos-delay="200" :class="['md:col-span-4 rounded-2xl overflow-hidden aspect-[4/4]', !imageLoaded['hero-3'] && 'bg-gray-200 animate-pulse']">
             <img 
-              src="@/assets/svg/punchingbag.svg" 
+              src="@/assets/images/punchingbag.webp" 
               alt="Boxing and punching bag workout training at BNG gym" 
               class="w-full h-full object-cover" 
               loading="eager"
@@ -160,7 +160,7 @@ const testimonials = [
             <div :class="['rounded-2xl overflow-hidden aspect-1/3', !imageLoaded['about-1'] && 'bg-gray-200 animate-pulse']">
               <img 
                 class="h-full object-cover w-full" 
-                src="@/assets/svg/facinbackMan.svg" 
+                src="@/assets/images/facinbackMan.webp" 
                 alt="Focused athlete training at BNG Fitness Hub" 
                 loading="lazy"
                 @load="handleImageLoad('about-1')">
@@ -170,7 +170,7 @@ const testimonials = [
             <div :class="['rounded-2xl overflow-hidden aspect-1/3', !imageLoaded['about-2'] && 'bg-gray-200 animate-pulse']">
               <img 
                 class="h-full object-cover w-full" 
-                src="@/assets/svg/prettygirl.svg" 
+                src="@/assets/images/prettygirl.webp" 
                 alt="Female member doing fitness training at BNG gym" 
                 loading="lazy"
                 @load="handleImageLoad('about-2')">
@@ -180,7 +180,7 @@ const testimonials = [
             <div :class="['rounded-2xl overflow-hidden aspect-1/3', !imageLoaded['about-3'] && 'bg-gray-200 animate-pulse']">
               <img 
                 class="h-full object-cover w-full" 
-                src="@/assets/svg/muscularguy.svg" 
+                src="@/assets/images/muscularguy.webp" 
                 alt="Muscular athlete showing strength training results" 
                 loading="lazy"
                 @load="handleImageLoad('about-3')">
@@ -273,7 +273,7 @@ const testimonials = [
             </p>
             <div :class="['rounded-2xl overflow-hidden aspect-4/5', !imageLoaded['feature-3'] && 'bg-gray-200 animate-pulse']">
               <img 
-                src="@/assets/svg/solotrainer.svg" 
+                src="@/assets/images/solotrainer.webp" 
                 alt="Certified personal trainer providing one-on-one guidance" 
                 class="w-full h-full object-cover" 
                 loading="lazy"
@@ -312,7 +312,7 @@ const testimonials = [
               </p>
             </div>
             <div :class="['rounded-2xl overflow-hidden', !imageLoaded['service-1'] && 'bg-gray-200 animate-pulse']">
-              <img src="@/assets/svg/sweatingMan.svg" alt="bng sweatingMan" class="w-full h-full object-cover" @load="handleImageLoad('service-1')">
+              <img src="@/assets/images/sweatingMan.webp" alt="bng sweatingMan" class="w-full h-full object-cover" @load="handleImageLoad('service-1')">
             </div>
           </div>
           <div class="flex flex-col gap-8 lg:gap-12 items-center">
@@ -330,7 +330,7 @@ const testimonials = [
               </p>
             </div>
             <div :class="['rounded-2xl overflow-hidden', !imageLoaded['service-2'] && 'bg-gray-200 animate-pulse']">
-              <img src="@/assets/svg/runningMan.svg" alt="bng runningMan" class="w-full h-full object-cover" @load="handleImageLoad('service-2')">
+              <img src="@/assets/images/runningMan.webp" alt="bng runningMan" class="w-full h-full object-cover" @load="handleImageLoad('service-2')">
             </div>
           </div>
           <div class="flex flex-col gap-8 lg:gap-12 items-center">
@@ -346,7 +346,7 @@ const testimonials = [
               </p>
             </div>
             <div :class="['rounded-2xl overflow-hidden', !imageLoaded['service-3'] && 'bg-gray-200 animate-pulse']">
-              <img src="@/assets/svg/weightrack.svg" alt="bng weightrack" class="w-full h-full object-cover" @load="handleImageLoad('service-3')">
+              <img src="@/assets/images/weightrack.webp" alt="bng weightrack" class="w-full h-full object-cover" @load="handleImageLoad('service-3')">
             </div>
           </div>
 
@@ -416,6 +416,7 @@ const testimonials = [
 
                 <!-- Right Side - Image -->
                 <div :class="['order-1 lg:order-2 rounded-2xl overflow-hidden aspect-4/3', !imageLoaded['testimonial'] && 'bg-gray-200 animate-pulse']">
+                  <!-- Placeholder: Convert testimonial.svg manually at https://cloudconvert.com/svg-to-webp -->
                   <img src="@/assets/svg/testimonial.svg" :alt="testimonial.author"
                     class="w-full h-full object-cover" @load="handleImageLoad('testimonial')" />
 
@@ -692,18 +693,18 @@ const testimonials = [
     </section>
 
     <!-- App Download Section -->
-    <section class="app-download-section py-8 sm:pt-16 bg-white">
+   <section class="app-download-section py-8 sm:pt-16 bg-white">
       <div class="container mx-auto px-4 md:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <!-- Left Side - Phone Mockup with Red Background -->
-          <div class="order-2 lg:order-1">
-            <div :class="['bg-primary rounded-3xl p-8 pb-0 flex justify-center items-center', !imageLoaded['phone-home'] && 'animate-pulse']">
-              <img src="@/assets/svg/phone.svg" alt="bng phone" class="w-full h-auto" @load="handleImageLoad('phone-home')">
+          <div class="order-2 lg:order-1" data-aos="fade-right">
+            <div class="bg-primary rounded-3xl p-6 sm:p-8 flex justify-center items-center overflow-hidden h-[450px] sm:h-auto sm:max-h-[80vh]">
+              <img src="@/assets/images/phone.webp" alt="bng phone" class="w-auto h-full max-h-[400px] sm:max-h-[70vh] max-w-full object-contain" loading="lazy">
             </div>
           </div>
 
           <!-- Right Side - Content -->
-          <div class="order-1 lg:order-2">
+          <div class="order-1 lg:order-2" data-aos="fade-left">
             <h2
               class="text-xl md:text-3xl  xl:text-4xl font-bold text-gray-900 sm:leading-tight leading-normal mb-6 md:mb-8 font-campton!">
               Stay motivated, track progress, and connect daily.
@@ -731,11 +732,13 @@ const testimonials = [
 
               <a href="#"
                 class="inline-flex items-center justify-center gap-3 px-6 py-3 border text-gray-900 rounded-lg border-gray-300 hover:bg-gray-400 hover:text-white transition-colors">
-               <svg width="46" height="58" viewBox="0 0 46 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 5.34277C0 1.05677 4.79972 -1.47856 8.33984 0.9375L43.0049 24.5957C46.1069 26.7131 46.1069 31.2878 43.0049 33.4053L8.33984 57.0635C4.79972 59.4795 0 56.9442 0 52.6582V5.34277Z" fill="#2E2E2E"/>
-<path d="M16.1121 47.5958L42.7152 28.5503L32.5985 21.5459L16.1121 47.5958Z" fill="#FBF9FF"/>
-<path d="M29.2263 19.211L16.4868 10.3906L25.1047 25.4499L29.2263 19.211Z" fill="#FBF9FF"/>
-</svg>
+                <svg width="46" height="58" viewBox="0 0 46 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M0 5.34277C0 1.05677 4.79972 -1.47856 8.33984 0.9375L43.0049 24.5957C46.1069 26.7131 46.1069 31.2878 43.0049 33.4053L8.33984 57.0635C4.79972 59.4795 0 56.9442 0 52.6582V5.34277Z"
+                    fill="#2E2E2E" />
+                  <path d="M16.1121 47.5958L42.7152 28.5503L32.5985 21.5459L16.1121 47.5958Z" fill="#FBF9FF" />
+                  <path d="M29.2263 19.211L16.4868 10.3906L25.1047 25.4499L29.2263 19.211Z" fill="#FBF9FF" />
+                </svg>
 
                 <div class="text-left">
                   <div class="text-lg font-semibold">Play Store</div>
