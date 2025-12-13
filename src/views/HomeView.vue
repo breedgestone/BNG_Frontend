@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import BngButton from '@/components/BngButton.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import { useSEO } from '@/composables/useSEO'
+import { useSchema } from '@/composables/useSchema'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -16,6 +17,40 @@ useSEO({
   description: 'Join BNG Fitness Hub and unlock your potential with 40+ expert trainers, 33+ fitness programs, and a thriving community of 970+ members. Build better habits with guided fitness support.',
   keywords: 'fitness gym, workout programs, personal trainers, fitness hub, gym membership, fitness community, workout classes, strength training',
   url: '/',
+})
+
+// Schema Markup
+const { addSchema, getLocalBusinessSchema, getServiceSchema, getFAQSchema, getBreadcrumbSchema } = useSchema()
+
+onMounted(() => {
+  // Add Local Business Schema
+  addSchema({
+    '@graph': [
+      getLocalBusinessSchema(),
+      getServiceSchema(),
+      getFAQSchema([
+        {
+          question: 'What are your membership plans?',
+          answer: 'We offer three flexible plans: 24-hour full subscription (₦10,000/month), 4-hour session (₦2,000/session), and home workout subscription (₦1,000/month).'
+        },
+        {
+          question: 'How many trainers do you have?',
+          answer: 'BNG Fitness Hub has over 40 certified expert trainers specializing in various fitness disciplines including strength training, cardio, yoga, and personalized coaching.'
+        },
+        {
+          question: 'Do you offer personal training sessions?',
+          answer: 'Yes, we offer one-on-one personal training sessions with certified trainers who create customized workout plans based on your goals and fitness level.'
+        },
+        {
+          question: 'What is the check-in reward system?',
+          answer: 'Our gamified check-in system rewards you with points for every gym visit. Points can be redeemed for perks like protein shakes, trainer sessions, or gym merchandise.'
+        }
+      ]),
+      getBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.bngfitness.com/' }
+      ])
+    ]
+  })
 })
 
 // Image loading states

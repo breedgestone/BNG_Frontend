@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useSEO } from '@/composables/useSEO'
+import { useSchema } from '@/composables/useSchema'
 
 // SEO Optimization
 useSEO({
@@ -8,6 +9,21 @@ useSEO({
   description: 'Learn about BNG Fitness Hub\'s mission to inspire, connect, and motivate every member. Discover our values, core beliefs, and commitment to your fitness journey.',
   keywords: 'about BNG fitness, fitness gym mission, gym values, fitness community, wellness goals',
   url: '/about',
+})
+
+// Schema Markup
+const { addSchema, getLocalBusinessSchema, getBreadcrumbSchema } = useSchema()
+
+onMounted(() => {
+  addSchema({
+    '@graph': [
+      getLocalBusinessSchema(),
+      getBreadcrumbSchema([
+        { name: 'Home', url: 'https://www.bngfitness.com/' },
+        { name: 'About', url: 'https://www.bngfitness.com/about' }
+      ])
+    ]
+  })
 })
 
 // Image loading states

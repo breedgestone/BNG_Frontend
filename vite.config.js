@@ -33,22 +33,34 @@ export default defineConfig({
             './src/assets/svg/nav-icons/CustomerReviewsIcon.vue',
             './src/assets/svg/nav-icons/AdminsIcon.vue',
             './src/assets/svg/nav-icons/ProfileIcon.vue'
+          ],
+          'vendor': [
+            'vue',
+            'vue-router',
+            'pinia'
+          ],
+          'charts': [
+            'apexcharts'
           ]
         }
       }
     },
-    // Increase chunk size warning limit for SVG-heavy chunks
     chunkSizeWarningLimit: 600,
-    // Enable minification
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
+        pure_funcs: ['console.log']
+      },
+      format: {
+        comments: false
       }
-    }
+    },
+    cssCodeSplit: true,
+    sourcemap: false,
+    reportCompressedSize: false
   },
-  // Optimize dependencies
   optimizeDeps: {
     include: ['vue', 'vue-router', 'pinia']
   }
