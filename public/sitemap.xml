@@ -7,7 +7,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://www.bngfitness.com/</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -15,7 +15,7 @@
   <!-- About Page -->
   <url>
     <loc>https://www.bngfitness.com/about</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -23,7 +23,7 @@
   <!-- Contact Page -->
   <url>
     <loc>https://www.bngfitness.com/contact</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -31,7 +31,7 @@
   <!-- Login Page -->
   <url>
     <loc>https://www.bngfitness.com/login</loc>
-    <lastmod>2025-12-09</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
