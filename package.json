@@ -43,6 +43,7 @@
     "start-server-and-test": "^2.0.12",
     "svgo": "^4.0.0",
     "tailwindcss": "^4.1.13",
+    "terser": "^5.44.1",
     "vite": "^5.4.11",
     "vite-plugin-vue-devtools": "^8.0.0",
     "vitest": "^3.2.4"
